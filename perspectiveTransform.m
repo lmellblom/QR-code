@@ -1,4 +1,19 @@
-function transform2square()%Im, f1, f2, f3, f4)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%function Im = perspectiveTransform()
+%
+%Receives an original image and uses perpective transformation to transform it to
+%a straight, readable image.
+%Returns straight, grayscale image.
+%Part of a pattern recognition project TNM034 - Advanced Image Processing, Linköping
+%University HT2014.
+%
+%Copyright (c) <2014> Karolin Jonsson, Louise Carlström, Linnea Nåbo, Linnea Mellblom
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function perspectiveTransform()%Im, f1, f2, f3, f4)
+% In working progress, does not receive any image or points as function
+% parameters.
 
 % Read image (should be passed to the function)
 Im = imread('Hus_4.png');
@@ -10,6 +25,7 @@ Im = rgb2gray(Im);
 
 % Select the points in the image and the reference image
 number_of_points = 8;
+% Manually chosen points (should come from detection)
 col_values = [1148; 1320; 2246; 2050; 1090; 1278; 2076; 1986]; %outer, inner of f1,2,3,4
 row_values = [376;  560;  384;   568; 1456; 1284; 1376; 1296];
 col_values_true = [0; 70; 410; 340; 0;   60;  370; 320];
