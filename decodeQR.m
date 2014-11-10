@@ -1,3 +1,17 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%function message = decodeQR(Image)
+%
+% function that given a Image that is 41x41 pixels and ONLY values is 0
+% or 1, can interpretate the message from the picture. 
+%
+% Part of a pattern recognition project TNM034 - Advanced Image Processing, Linköping
+% University HT2014.
+%
+% Copyright (c) <2014> Karolin Jonsson, Louise Carlström, Linnea Nåbo, Linnea Mellblom
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function message = decodeQR(Image)
 % right now the Image must be 41x41 pixels 
 
@@ -16,8 +30,6 @@ imageVec(isnan(imageVec)) = []; % removes all the NaN values so it is just
 
 % make a long string of the bits that stores information
 str=num2str(imageVec)'; %string, transponat så sträng ex '010101110'
-str = '01000001001000000111010001100101011100110111010000100000011011010110010101110011011100110110000101100111011001010010000001110100011011110010000001101010011101010111001101110100001000000111001101100101001000000110100101100110001000000111010001101000011001010010000001101100011000010111001101110100001000000111001101110100011001010111000001110011001000000111011101101111011100100110101101110011001011100010000001001000011000010111011001100101001000000110000100100000011011100110100101100011011001010010000001100100011000010111100100100001';
-% above str is just a test string to se if the steps under works. 
 
 % divide the message into 8bits strings
 divided = reshape(str,8,[]).';  % just nu problem om ej jämnt delbart med 8
