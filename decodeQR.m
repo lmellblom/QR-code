@@ -13,7 +13,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 function message = decodeQR(Image)
-% right now the Image must be 41x41 pixels 
+% right now the Image must be 41x41, vet alltså inte om detta är så bra
+% idé. man komprimerar ju ned information som gör att det försvinner typ..
 
 % creates the images that tell if the pixel is info or fiducal marks
 referenceIm = false(41);
