@@ -4,11 +4,11 @@ img = im2binary(img); %convert to gray image
 
 [height, width] = size(img); % height and width
 
-tolerance = 0.5; % en modul kan skilja sig +- 0.5
+tolerance = 0.3; % en modul kan skilja sig +- 0.5
 % referencemall för hur mkt FIP kan skilja sig
 reference = [0.1429 0.1429 0.4286 0.1429 0.1429];
-tol_low =  reference-tolerance*reference;
-tol_high = reference+tolerance*reference;
+tol_high =  tolerance*reference(1) + reference;
+tol_low = reference - tolerance*reference(1);
 
 imshow(img)
 hold on
@@ -47,7 +47,7 @@ for row = 1:height
                     if (img(row,pixelposition)==0); %om första pixelvärdet är svart, är då kanske FIP, steg 3 i KTH-rapporten
                         col = pixelposition + floor(sum(refer)/2); % mitten positionen
                        % pos = [row, col];  
-                        posRow = [posRow; [row,col]];                 
+                        posRow = [posRow; [row,col]]; 
                         %plot(col, row,'r*'); % i plot skrivs nog col och row tvärtom
                     end
             end
