@@ -10,6 +10,9 @@ reference = [0.1429 0.1429 0.4286 0.1429 0.1429];
 tol_high =  tolerance*reference(1) + reference;
 tol_low = reference - tolerance*reference(1);
 
+modSize_row = [1];
+modSize_col = [1];
+
 imshow(img)
 hold on
 
@@ -48,6 +51,7 @@ for row = 1:height
                         col = pixelposition + floor(sum(refer)/2); % mitten positionen
                        % pos = [row, col];  
                         posRow = [posRow; [row,col]]; 
+                        modSize_row = [modSize_row; sum(refer)]; % längden av FIP:en
                         %plot(col, row,'r*'); % i plot skrivs nog col och row tvärtom
                     end
             end
@@ -93,7 +97,8 @@ for col = 1:width
                    % disp('FIP');
                    if (img(pixelposition,col)==0)
                         row = pixelposition + floor(sum(refer)/2);
-                        posCol = [posCol; [row,col]];                 
+                        posCol = [posCol; [row,col]];   
+                        modSize_col = [modSize_col; sum(refer)];
                         %plot(col, row,'b*'); % i plot skrivs nog col och row tvärtom
                    end
             end
@@ -109,9 +114,17 @@ end
 % sen med allokering av detta...
 posCol = posCol(2:end,:);
 posRow = posRow(2:end,:);
+modSize_col = modSize_col(2:end, :);
+modSize_row = modSize_row(2:end, :);
 
+% plockar ut de som är FIP genom att jämföra row och col-position
 [Lia,Locb] = ismember(posCol, posRow,'rows');
 
+% mod-size på de som är FIPS:en
+mod_col = modSize_col(Lia,:)./7  %7 är det vi vet att en FIP "ska" va
+mod_row = modSize_row(Lia,:)./7
+
+% hämtar ut pixelvärdena på FIP
 pixelValues = posCol(Lia,:);
 
 plot(pixelValues(:,2), pixelValues(:,1),'g*'); % i plot skrivs nog col och row tvärtom
