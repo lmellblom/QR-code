@@ -1,16 +1,19 @@
-function FIPS = findFIP(img)
+function [numberOfFIPS, centerPoints] = findFIP(img)
 
-    FIPS = 0;
+    numberOfFIPS = 0;
+    locationFIP = [0 0];
+    
     % test bara nu, ska skicka in en bild sen som är grayscaled
     %img = imread('images/img_set2/test','png');
     %img = imread('images/img_set2/Hus_1','png');
     %img = imread('images/img_set5/Hus_4d','png'); % hittar aldrig i denna!!
-    
+   
     img = im2binary(img);
     
+    figure;
     imshow(img);
     hold on;
-        
+    
     [height, width] = size(img); % height and width
     skipRows = 1; % behöver inte scanna varje rad, läst att de går att skippa några..
     
@@ -42,12 +45,12 @@ function FIPS = findFIP(img)
                     [rowFIP, mS] =  checkRatio(vector_row_FIP);
                     if(rowFIP && img(pixelPosRow,col)==0)
                         rows = pixelPosRow + sum(vector_row_FIP)/2;
-                        if (abs(rows-row) <= 0.5) % bara felmarginal om typ brevid varandra
+                        if (abs(rows-row) <= 0.8) % bara felmarginal om typ brevid varandra
                             % fip is found in both directions
                             %disp('FIP');
-                            FIPS = FIPS + 1;
-                            plot(col, row,'g+');
-                            break;
+                            numberOfFIPS = numberOfFIPS + 1;
+                            %plot(col, row,'y+');
+                            locationFIP = [locationFIP; [row col]];
                         end
                     end  
                     pixelPosRow = pixelPosRow + length_module_col(j);
@@ -91,6 +94,18 @@ function FIPS = findFIP(img)
 %         end
 %     end
 %     % -----------------------------------------------------------------------
-
-
+    locationFIP = locationFIP(2:end,:)
+    
+    % separerar ut de true FIPS med k-means.
+    % om fått tre punkter väldigt nära varandra, görs till en.
+    % http://se.mathworks.com/help/stats/kmeans.html#buefthh-3
+    [idx, centerPoints] = kmeans(locationFIP,3,'Distance','cityblock',...
+                       'Replicates',5);
+    
+    centerPoints = floor([centerPoints(:,1) centerPoints(:,2)])
+    numberOfFIPS = length(centerPoints); % detta stämmer nog inte dock..
+    
+    % ritar ut
+    plot(centerPoints(:,2), centerPoints(:,1), 'g*');
+    
 end
