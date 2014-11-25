@@ -15,12 +15,17 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%Adaptive thresholding
+%Dynamic thresholding
+%Normalization by local maxima
+
 % k = how adaptive this thresholding should be. Sort of.
 function thresholds = adaptive_threshold(img, k)
 
 img = imread('images/img_set2/Hus_1.png');
 
-k = 4;
+k = 2;
 
 level = graythresh(img)
 levels = multithresh(img);
@@ -32,16 +37,16 @@ width = size(img, 2);
 h_step = floor(height/k)
 w_step = floor(width/k)
 
-k_h = 1;
-for i=1:h_step:height
-    for j= 1:w_step:width
-        thresholds(k_m) = graythresh(img(i:i+h_step, j:j+w_step));
-        k_m = k_m+1;
+%Skapa en matris där k*k tröskelvärden sparas för att sedan tröskla bilden
+%med
+for i=1:k
+    for j= 1:k
+        i
+        j
+        thresholds(i, j) = graythresh(img( (i-1)*h_step:i*h_step, (j-1)*w_step:j*w_step ));
     end
 end
-
-% adaptfilt.adjlms;
-% multithresh
+%Tröskla bilden direkt
 
 %threshholds;
 
