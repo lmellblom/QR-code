@@ -8,7 +8,10 @@ function [numberOfFIPS, trueFIPS] = findFIP(img)
     %img = imread('images/img_set2/Hus_1','png');
     %img = imread('images/img_set5/Hus_4d','png'); % hittar aldrig i denna!!
    
-    img = im2binary(img);
+    % 3 - Number of thresholds used for adaptive thresholding!
+    %Doesn't work perfectly yet, but better than just 1 threshold.
+    % 3 can of course be changed to desired number of thresholds
+    img = im2binary(img, 3);
     
   %  figure;
   %  imshow(img);
