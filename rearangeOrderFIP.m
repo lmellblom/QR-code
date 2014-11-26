@@ -10,6 +10,9 @@ function [topLeft, topRight, lowerLeft] = rearangeOrderFIP(FIPs)
     % B/
     
     % olika förutsättningar, max i olika punkter, alltså längst avstånd
+    % pdist = [ |pos1-pos2|, |pos1-pos3|, |pos2-pos3| ];
+    % pdist ger ut svar liknande ovan, tar ut max distans, vet då vilken
+    % pkt som inte är involverad i hypotenusan -> då är det A. 
     switch indexMax
         case 1
             A = FIPs(3,:); %betyder att längst avstånd är mellan pos 1 och 2, därför 3 pkt A
@@ -28,15 +31,14 @@ function [topLeft, topRight, lowerLeft] = rearangeOrderFIP(FIPs)
     % vectors between points
     AB = B-A;
     AC = C-A;
-    CB = B-C;
     
-    k = atan2(AC(2),AC(1)) - atan2(AB(2),AB(1))
+    %perp dot product, http://geomalgorithms.com/vector_products.html
+    k = AB(1)*AC(2) - AB(2)*AC(1);
     
-    %k = asin(AB/CB);
-    %funka inte
+    % AB _|_ AC > 0, då ligger AC till vänster om AB, dvs C är topRight
     if k > 0
-        lowerLeft = B;
         topRight = C;
+        lowerLeft = B;
     else
         lowerLeft = C;
         topRight = B;
