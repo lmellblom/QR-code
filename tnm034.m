@@ -8,6 +8,10 @@ function strout = tnm034(Im)
 % The string must follow the pre-defined format, explained below.
 %
 % Our program code...
-strout=char(string); 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+loc = findFIP(Im);
+Im = perspectiveTransform(Im, 3, loc);
+small_im = imresize(Im, [41 41], 'nearest');
+message = decodeQR(double(small_im));
+    
+strout=message;%char(string); 

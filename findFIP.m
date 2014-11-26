@@ -1,4 +1,4 @@
-function [numberOfFIPS, trueFIPS] = findFIP(img)
+function trueFIPS = findFIP(img)
 
     numberOfFIPS = 0;
     locationFIP = [0 0];
@@ -11,11 +11,7 @@ function [numberOfFIPS, trueFIPS] = findFIP(img)
     % 3 - Number of thresholds used for adaptive thresholding!
     %Doesn't work perfectly yet, but better than just 1 threshold.
     % 3 can of course be changed to desired number of thresholds
-    img = im2binary(img, 3);
-    
-  %  figure;
-  %  imshow(img);
-  %  hold on;
+    img = im2binarySimple(img);
     
     [height, width] = size(img); % height and width
     skipRows = 1; % behöver inte scanna varje rad, läst att de går att skippa några..
@@ -85,16 +81,18 @@ function [numberOfFIPS, trueFIPS] = findFIP(img)
     end
             
     % rätt ordning på FIP:sen
-    [topLeft,topRight, lowerLeft] = rearangeOrderFIP(trueFIPS);
+    [lowerLeft, topLeft, topRight] = rearangeOrderFIP(trueFIPS);
     
-    rightOrder = [topLeft; topRight; lowerLeft]
-    
+    rightOrder = [lowerLeft; topLeft; topRight];
     trueFIPS=rightOrder;
     
     % ritar ut
-    %plot(topLeft(:,2), topLeft(:,1),'g*');
-    %plot(topRight(:,2), topRight(:,1),'r*');
-    %plot(lowerLeft(:,2), lowerLeft(:,1),'b*');
+%     figure;
+%     imshow(img);
+%     hold on;
+%     plot(topLeft(:,2), topLeft(:,1),'g*');
+%     plot(topRight(:,2), topRight(:,1),'r*');
+%     plot(lowerLeft(:,2), lowerLeft(:,1),'b*');
     %plot(rightOrder(:,2), rightOrder(:,1), 'g*');
     
 end
