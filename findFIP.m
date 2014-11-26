@@ -1,4 +1,4 @@
-function [numberOfFIPS, centerPoints] = findFIP(img)
+function [numberOfFIPS, trueFIPS] = findFIP(img)
 
     numberOfFIPS = 0;
     locationFIP = [0 0];
@@ -10,9 +10,9 @@ function [numberOfFIPS, centerPoints] = findFIP(img)
    
     img = im2binary(img);
     
-    figure;
-    imshow(img);
-    hold on;
+  %  figure;
+  %  imshow(img);
+  %  hold on;
     
     [height, width] = size(img); % height and width
     skipRows = 1; % behöver inte scanna varje rad, läst att de går att skippa några..
@@ -47,20 +47,12 @@ function [numberOfFIPS, centerPoints] = findFIP(img)
                         rows = pixelPosRow + sum(vector_row_FIP)/2;
                         if (abs(rows-row) <= 0.8) % bara felmarginal om typ brevid varandra
                             % fip is found in both directions
-                            %disp('FIP');
                             numberOfFIPS = numberOfFIPS + 1;
-                            %plot(col, row,'y+');
                             locationFIP = [locationFIP; [row col]];
                         end
                     end  
                     pixelPosRow = pixelPosRow + length_module_col(j);
                 end
-                
-                % -------------------------------------------------------------
-
-                %plot(col, row,'g+');
-                %plot(pixelPosCol, row, 'y+'); %start of FIP
-                %plot(pixelPosCol+sum(vectorFIP), row, 'c+'); %end of FIP
            
             end
             pixelPosCol = pixelPosCol + length_modules(i); % adds the pixelvalue.. 
@@ -68,33 +60,7 @@ function [numberOfFIPS, centerPoints] = findFIP(img)
 
     end
     
-    
-%     % -----------------------------------------------------------
-%     % om tar bort det som är inne i forloppen, måste detta tas tillbaka
-%     % find FIP in the col
-%     for col = skipRows : skipRows : width
-%         scanline = img(:,col);
-%         
-%         % räkna alla moduler som är bredvid varandra
-%         length_modules = lengthModule(scanline);
-%         
-%         % check the sequence if there is a FIP
-%         pixelPosRow = 1;
-%         for i = 1:length(length_modules)-4  
-%             vectorFIP = length_modules(i:i+4);
-%             [isFIP, moduleSize] = checkRatio(vectorFIP);
-%             
-%             if(isFIP && img(pixelPosRow, col)==0);
-%                 row = pixelPosRow + floor(sum(vectorFIP)/2); % mitten positionen
-%                 plot(col, row,'m*');
-%                 plot(col, pixelPosRow, 'g+'); %start of FIP
-%                 plot(col, pixelPosRow+sum(vectorFIP), 'r+'); %end of FIP
-%             end
-%             pixelPosRow = pixelPosRow + length_modules(i); % adds the pixelvalue.. 
-%         end
-%     end
-%     % -----------------------------------------------------------------------
-    locationFIP = locationFIP(2:end,:)
+    locationFIP = locationFIP(2:end,:);
     
     % separerar ut de true FIPS med k-means.
     % om fått tre punkter väldigt nära varandra, görs till en.
@@ -102,10 +68,30 @@ function [numberOfFIPS, centerPoints] = findFIP(img)
     [idx, centerPoints] = kmeans(locationFIP,3,'Distance','cityblock',...
                        'Replicates',5);
     
-    centerPoints = floor([centerPoints(:,1) centerPoints(:,2)])
+    centerPoints = floor([centerPoints(:,1) centerPoints(:,2)]);
     numberOfFIPS = length(centerPoints); % detta stämmer nog inte dock..
     
+    % verifiera punkterna typ iaf vi har en outlier.. dist från
+    % centerpointen typ, plocka ur de som är närmast då... har 3 kluster
+    % så vi inte får en centerpunkt som ligger helt åk fanders ;) 
+    for i=1:3
+        calculatedPos = centerPoints(i,:);
+        realLocation = locationFIP(idx==i,:);
+        [~,index] =min( pdist2( calculatedPos, realLocation, 'euclidean') );
+        trueFIPS(i,:)=realLocation(index,:); % plocka ut en av de som har kortast distans
+    end
+            
+    % rätt ordning på FIP:sen
+    [topLeft,topRight, lowerLeft] = rearangeOrderFIP(trueFIPS);
+    
+    rightOrder = [topLeft; topRight; lowerLeft]
+    
+    trueFIPS=rightOrder;
+    
     % ritar ut
-    plot(centerPoints(:,2), centerPoints(:,1), 'g*');
+    %plot(topLeft(:,2), topLeft(:,1),'g*');
+    %plot(topRight(:,2), topRight(:,1),'r*');
+    %plot(lowerLeft(:,2), lowerLeft(:,1),'b*');
+    %plot(rightOrder(:,2), rightOrder(:,1), 'g*');
     
 end
