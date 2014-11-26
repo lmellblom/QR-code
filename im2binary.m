@@ -13,8 +13,8 @@
 
 function bin = im2binary(img, k)
 
-imshow(img);
-figure;
+%imshow(img);
+%figure;
 
 %Skapa en matris där k*k st tröskelvärden sparas
 thresholds = zeros(k);
@@ -37,6 +37,6 @@ for i=1:h_step:height
     end
 end
 
-imshow(BW_img);
+%imshow(BW_img);
 
 bin = BW_img;
