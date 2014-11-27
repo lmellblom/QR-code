@@ -10,6 +10,8 @@ function strout = tnm034(Im)
 % Our program code...
 
 loc = findFIP(Im);
+Im = rotationTransform(Im, loc);
+loc = findFIP(Im);
 Im = perspectiveTransform(Im, 3, loc);
 small_im = imresize(Im, [41 41], 'nearest');
 message = decodeQR(double(small_im));
