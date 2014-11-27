@@ -1,6 +1,5 @@
-function AP = findAP(FIPs, img)
-    % the order of the FIPs are
-    %[lowerLeft; topLeft; topRight];
+function AP = findAPCandidates(FIPs, img)
+    % the order of the FIPs are [lowerLeft; topLeft; topRight];
     % A-------C
     % |    _/
     % |  _/
@@ -9,15 +8,13 @@ function AP = findAP(FIPs, img)
     
     % http://www.hindawi.com/journals/mpe/2013/848276/, hmmm
     
-    figure;
-    imshow(img);
-    hold on;
-    
-    %bild är svartvit när den ..
+    %% genom linjär algebra, hitta punkt där AP troligen ligger, 'nearAP'.
+    %bild är svartvit när den kommer in lr liknadne?
     [height, width] = size(img);
+    
     locationAP = [0 0];
     num = 0;
-   
+    
     A = FIPs(2,:);
     B = FIPs(1,:);
     C = FIPs(3,:);
@@ -31,10 +28,7 @@ function AP = findAP(FIPs, img)
     startRow = nearAP(1);
     startCol = nearAP(2);
     
-    pixelRow = startRow;
-    pixelCol = startCol;
-    
-    
+    %% find all the possible candidates for the AP
     for row = 1 : height
         scanline = img(row,:);
         
@@ -45,7 +39,7 @@ function AP = findAP(FIPs, img)
         pixelPosCol = 1;
         for i = 1:length(length_modules)-2 
             vectorFIP = length_modules(i:i+2);
-            [isFIP, moduleSize] = checkRatio(vectorFIP, [1 1 1]);
+            [isFIP, ~] = checkRatio(vectorFIP, [1 1 1]);
             
             % if the ratio is right and the first value is black
             if(isFIP &&  img(row, pixelPosCol)==0)
@@ -59,12 +53,11 @@ function AP = findAP(FIPs, img)
                 length_module_col = lengthModule(img(:,col));
                 for j = 1:length(length_module_col)-2
                     vector_row_FIP = length_module_col(j:j+2);
-                    [rowFIP, mS] =  checkRatio(vector_row_FIP, [1 1 1]);
+                    [rowFIP, ~] =  checkRatio(vector_row_FIP, [1 1 1]);
                     if(rowFIP && img(pixelPosRow,col)==0)
                         rows = pixelPosRow + sum(vector_row_FIP)/2;
                         if (abs(rows-row) <= 0.8) % bara felmarginal om typ brevid varandra
                             % fip is found in both directions
-                            num = num + 1;
                             locationAP = [locationAP; [row col]];
                         end
                     end  
@@ -78,18 +71,19 @@ function AP = findAP(FIPs, img)
     end
     locationAP = locationAP(2:end,:);
     
+    %% sålla nu ut de som inte är AP, utan hitta den mest troliga typ
     
     d = pdist2(locationAP, nearAP);
     [~, index] = min(d);
+    
     % choose the point closest to the "right" now. 
     AP = locationAP(index,:);
     
-
     % plot cancidates and "the almost AP"
+    figure;
+    imshow(img);
+    hold on;
     plot(AP(:,2), AP(:,1),'g*');
     plot(nearAP(2), nearAP(1), 'r*');
 
-    
-    
-    
 end
