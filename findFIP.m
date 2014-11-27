@@ -84,9 +84,7 @@ function trueFIPS = findFIP(img)
     
     rightOrder = [lowerLeft; topLeft; topRight];
     trueFIPS=rightOrder;
-    
-    findAP(trueFIPS, img);
-    
+        
     % ritar ut
     %figure;
     %imshow(img);
