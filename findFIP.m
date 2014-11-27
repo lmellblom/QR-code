@@ -14,10 +14,9 @@ function trueFIPS = findFIP(img)
     img = im2binarySimple(img);
     
     [height, width] = size(img); % height and width
-    skipRows = 1; % behöver inte scanna varje rad, läst att de går att skippa några..
     
     % find FIP in the row
-    for row = skipRows : skipRows : height
+    for row = 1 : height
         scanline = img(row,:);
         
         % räkna alla moduler som är bredvid varandra
@@ -27,7 +26,7 @@ function trueFIPS = findFIP(img)
         pixelPosCol = 1;
         for i = 1:length(length_modules)-4  
             vectorFIP = length_modules(i:i+4);
-            [isFIP, moduleSize] = checkRatio(vectorFIP);
+            [isFIP, moduleSize] = checkRatio(vectorFIP, [1 1 3 1 1]);
             
             % if the ratio is right and the first value is black
             if(isFIP &&  img(row, pixelPosCol)==0)
@@ -41,7 +40,7 @@ function trueFIPS = findFIP(img)
                 length_module_col = lengthModule(img(:,col));
                 for j = 1:length(length_module_col)-4
                     vector_row_FIP = length_module_col(j:j+4);
-                    [rowFIP, mS] =  checkRatio(vector_row_FIP);
+                    [rowFIP, mS] =  checkRatio(vector_row_FIP, [1 1 3 1 1]);
                     if(rowFIP && img(pixelPosRow,col)==0)
                         rows = pixelPosRow + sum(vector_row_FIP)/2;
                         if (abs(rows-row) <= 0.8) % bara felmarginal om typ brevid varandra
@@ -86,7 +85,7 @@ function trueFIPS = findFIP(img)
     rightOrder = [lowerLeft; topLeft; topRight];
     trueFIPS=rightOrder;
     
-    findAP(trueFIPS);
+    findAP(trueFIPS, img);
     
     % ritar ut
     %figure;
