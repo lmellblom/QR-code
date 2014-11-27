@@ -27,8 +27,8 @@ h_step = floor(height/k);
 w_step = floor(width/k);
 
 place = 1;
-for i=1:h_step:height
-    for j=1:w_step:width
+for i=1:h_step:(height-h_step)
+    for j=1:w_step:(width-w_step)
         if(place <= k*k)
             thresholds(place) = graythresh( img((i:i+(h_step-1)), (j:j+(w_step-1))) );
             BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = im2bw( (img( (i:i+(h_step-1)), (j:j+(w_step-1)) )), thresholds(place) );
@@ -37,6 +37,6 @@ for i=1:h_step:height
     end
 end
 
-%imshow(BW_img);
+imshow(BW_img);
 
 bin = BW_img;

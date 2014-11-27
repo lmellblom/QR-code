@@ -1,5 +1,5 @@
 % denna funktion ska klura ut vilken FIP som är vilken. 
-function [lowerLeft, topLeft, topRight] = rearangeOrderFIP(FIPs)
+function [lowerLeft, topLeft, topRight] = getRightOrderOfFIPs(FIPs)
     
     [~,indexMax] = max(pdist(FIPs)); % calc distance, where it distance max?    
     % sortera ut vilken ordning som triangeln ligger i.. 

@@ -38,7 +38,7 @@ correct = 'Typ: Fastigheten Älmhult Jämnhult 1:28. Friliggande villa. Byggår 198
 disp('Test 2 startades');
 disp('...');
 tic
-for i = 1 : 1% length(srcFiles)
+for i =   1 :  length(srcFiles)
     filename = strcat('images/img_set2/',srcFiles(i).name);
     I = imread(filename);
     message = tnm034(I);

@@ -13,16 +13,22 @@
 
 function thresholds = adaptive_threshold(img, k)
 
-figure;
+img = imread('images/img_newSet/Husannons_full_Illum.png');
+%img = imread('images/img_set2/Hus_1.png');
+k = 3;
+
 imshow(img);
 figure;
 
 %Skapa en matris där k*k st tröskelvärden sparas
-thresholds = zeros(k);
+%thresholds = zeros(k)
 
-[height, width, depth] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
+[height, width, depth] = size(img) % height and width (depth is not used but needs to be there so "size" works correctly
 
-BW = zeros(height, width);
+BW_test = img;
+
+BW_img = zeros(height, width);
+size_BW = size(BW_img)
 
 h_step = floor(height/k)
 w_step = floor(width/k)
@@ -31,14 +37,21 @@ place = 1;
 for i=1:h_step:height
     for j=1:w_step:width
         if(place <= k*k)
-            troskel = graythresh( img((i:i+(h_step-1)), (j:j+(w_step-1))) );
-            BW((i:i+(h_step-1)), (j:j+(w_step-1))) = im2bw( (img( (i:i+(h_step-1)), (j:j+(w_step-1)) )), troskel );
+            place
+            temp_tresh = graythresh( img((i:i+h_step-1), (j:j+w_step-1)) );
+            BW_img( (i:i+h_step-1), (j:j+w_step-1) ) = im2bw( (img( (i:i+h_step-1), (j:j+w_step-1) )), temp_tresh );
+            BW_test = im2bw(  (img( (i:i+h_step-1), (j:j+w_step-1) )), temp_tresh );
             place = place+1;
+            temp_thresh = 0;
         end
     end
 end
 
-imshow(BW);
+size_BW = size(BW_img)
+size_img = size(img)
+
+imshow(BW_img);
+
 
 
 
