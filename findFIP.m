@@ -86,13 +86,15 @@ function trueFIPS = findFIP(img)
     rightOrder = [lowerLeft; topLeft; topRight];
     trueFIPS=rightOrder;
     
+    findAP(trueFIPS);
+    
     % ritar ut
-%     figure;
-%     imshow(img);
-%     hold on;
-%     plot(topLeft(:,2), topLeft(:,1),'g*');
-%     plot(topRight(:,2), topRight(:,1),'r*');
-%     plot(lowerLeft(:,2), lowerLeft(:,1),'b*');
+    %figure;
+    %imshow(img);
+    %hold on;
+    %plot(topLeft(:,2), topLeft(:,1),'g*');
+    %plot(topRight(:,2), topRight(:,1),'r*');
+    %plot(lowerLeft(:,2), lowerLeft(:,1),'b*');
     %plot(rightOrder(:,2), rightOrder(:,1), 'g*');
     
 end
