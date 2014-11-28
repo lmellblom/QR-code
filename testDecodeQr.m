@@ -6,7 +6,7 @@ close all;
 img = imread('images/img_set2/test','png');    %testimage that i cropped
 imshow(img)
 % process the image and all stuff
-testImg = double(im2binary(img)); % makes a binary image depending on grayvalue
+testImg = double(im2binary(img, 8)); % makes a binary image depending on grayvalue
 % im2bw gives 0 or 1 depending on the threshold value of img. 
 % double to convert so not logical array. 
 
