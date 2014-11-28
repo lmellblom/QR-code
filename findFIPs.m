@@ -27,6 +27,5 @@ function FIPs = findFIPs(FIPCandidates)
         rightOrder = [lowerLeft; topLeft; topRight];
         FIPs=rightOrder;
     end
-    
 
 end

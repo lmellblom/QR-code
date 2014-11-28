@@ -16,12 +16,20 @@ img = im2binarySimple(Im);
 FIPCandidates = findFIPCandidates(img);
 FIPLocations = findFIPs(FIPCandidates);
 
+% rotate the pic
+%img = rotationTransform(img, FIPLocations);
+
+% find FIPs
+%FIPCandidates = findFIPCandidates(img);
+%FIPLocations = findFIPs(FIPCandidates);
+
 % find AP
 APLocation = findAP(FIPLocations,img); 
 
 % transform the pic
-Im = perspectiveTransform(Im, 3, FIPLocations);
-small_im = imresize(Im, [41 41], 'nearest');
+img = perspectiveTransform(Im, FIPLocations, APLocation);
+
+small_im = imresize(img, [41 41], 'nearest');
 
 % read the QR-code
 message = decodeQR(double(small_im));

@@ -1,4 +1,4 @@
-function AP = findAPCandidates(FIPs, img)
+function AP = findAP(FIPs, img)
     % the order of the FIPs are [lowerLeft; topLeft; topRight];
     % A-------C
     % |    _/
@@ -84,6 +84,6 @@ function AP = findAPCandidates(FIPs, img)
     imshow(img);
     hold on;
     plot(AP(:,2), AP(:,1),'g*');
-    plot(nearAP(2), nearAP(1), 'r*');
+    %plot(nearAP(2), nearAP(1), 'r*');
 
 end

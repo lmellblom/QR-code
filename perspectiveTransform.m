@@ -11,11 +11,12 @@
 %Copyright (c) <2014> Karolin Jonsson, Louise Carlström, Linnea Nåbo, Linnea Mellblom
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function transformed = perspectiveTransform(Im, no_of_points, fips)
+function transformed = perspectiveTransform(Im, fips, ap)
 
+no_of_points = 4;
 % Set the fips
-row_values_dist = [fips(1,1), fips(2,1), fips(3,1)];
-col_values_dist = [fips(1,2), fips(2,2), fips(3,2)];
+row_values_dist = [fips(1,1), fips(2,1), fips(3,1), ap(1)];
+col_values_dist = [fips(1,2), fips(2,2), fips(3,2), ap(2)];
 
 
 % Make the new image the same size as the current
@@ -24,19 +25,18 @@ if(color == 3)
     Im = rgb2gray(Im);
 end
 
-
 % Calculate true values
 % Find max distance:
 dist_1 = abs((row_values_dist(1) - row_values_dist(2)));
 dist_2 = abs((col_values_dist(3) - col_values_dist(2)));
 
-dist_max = max(dist_1, dist_2);
-dist_min = dist_max*(3.5/34);
+dist_max = max(dist_1, dist_2)
+dist_min = dist_max*(4/34);
 side = dist_max + (2*dist_min);
 
 % True values for the fips
-col_values_true = [dist_min;          dist_min; dist_min+dist_max];% dist_max+dist_min+dist_min];
-row_values_true = [dist_max+dist_min; dist_min; dist_min         ];% dist_max+dist_min+dist_min];
+col_values_true = [dist_min;          dist_min; dist_min+dist_max; dist_max];
+row_values_true = [dist_max+dist_min; dist_min; dist_min         ; dist_max];
 
 
 % Collect coordinates from the image and the reference image
@@ -72,9 +72,6 @@ newim = im2binarySimple(newim);
 n = floor(dist_max/(33*2));
 se = strel('square',n); %There is probably a better option, need to decide what square side
 newim = imclose(newim,se);
-
-% figure;
-% imshow(newim);
 
 transformed = newim;
 
