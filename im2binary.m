@@ -14,25 +14,22 @@
 
 function bin = im2binary(img, k)
 
-figure('name', 'incoming fig');
-imshow(img);
+%% Test param. remove when code is working
+%k=10;
+%img = imread('images/img_set4/Hus_3a.png');
+%figure('name', 'incoming fig');
+%imshow(img);
 
-
-%% Test param. remove when working
-k=10;
-img = imread('images/img_set4/Hus_3a.png');
 %%
 %Skapa en matris där k*k st tröskelvärden sparas
 thresholds = zeros(k);
-
-[height, width, ~] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
-
-%% add padding to the bottom and to the right
 [height, width, depth] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
 if(depth == 3) 
     img = rgb2gray(img);
 end
+%% Add padding to the bottom and to the right
 %% Calculate padding
+
 %Calculate how many rows to add
 padHeight = k - mod(height,k);
 %Calculate how many cols to add
@@ -50,8 +47,8 @@ if(padHeight ~= 0)
     
     %Add row padding at the bottom of the image
     img = [img; padRow];
-    figure('name', 'add padding bottom');
-    imshow(img);
+    %figure('name', 'add padding bottom');
+    %imshow(img);
     h_step = floor(paddedHeight/k);
     loopHeight = paddedHeight;
 end
@@ -65,8 +62,8 @@ if(padWidth ~= 0)
     %Add column padding to the right of the image
     img = [img, padCol];
     
-    figure('name', 'add padding side');
-    imshow(img);
+    %figure('name', 'add padding side');
+    %imshow(img);
     
     w_step = floor(paddedWidth/k);
     loopWidth = paddedWidth;
@@ -83,11 +80,13 @@ end
     
 %% Create new binary image
 BW_img = zeros(size(img));
-figure('name', 'new BW');
-imshow(BW_img);
+%figure('name', 'new BW');
+%imshow(BW_img);
 %% uncomment IF running im2bin without padding
-%paddedHeight = height;
-%paddedWidth = width;
+% loopHeight = height;
+% loopWidth = width;
+% h_step = floor(height/k);
+% w_step = floor(width/k);
 %det blir olika bokstäver när man decodar beroende på om man tex trösklar med k=8 eller k=9, skulle man kunde ta det som blev rätt från båda så skulle det bli perfa. 
 %%
 
@@ -102,11 +101,11 @@ for i=1:h_step:(loopHeight-h_step)
     end
 end
 
-figure('name', 'thresholded BW');
-imshow(BW_img);
+%figure('name', 'thresholded BW');
+%imshow(BW_img);
 %% Remove padding
 BW_img=BW_img(1:height,1:width);
-figure('name', 'padding removed');
-imshow(BW_img);
+%figure('name', 'padding removed');
+%imshow(BW_img);
 %%
 bin = BW_img;
