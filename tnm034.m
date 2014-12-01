@@ -12,6 +12,8 @@ function strout = tnm034(Im)
 % process the image, maybe check if gray image or something first??
 img = im2binary(Im, 8);
 
+%img = im2binarySimple(Im);
+
 % find FIPs
 FIPCandidates = findFIPCandidates(img);
 FIPLocations = findFIPs(FIPCandidates);
@@ -27,11 +29,15 @@ FIPLocations = findFIPs(FIPCandidates);
 APLocation = findAP(FIPLocations,img); 
 
 % transform the pic
-img = perspectiveTransform(Im, FIPLocations, APLocation);
+img = perspectiveTransform(img, FIPLocations, APLocation);
+figure;
+imshow(img);
 
 small_im = imresize(img, [41 41], 'nearest');
+figure;
+imshow(small_im);
 
 % read the QR-code
 message = decodeQR(double(small_im));
     
-strout=message;%char(string); 
+strout=message;%char(message); 

@@ -80,10 +80,10 @@ function AP = findAP(FIPs, img)
     AP = locationAP(index,:);
     
     % plot cancidates and "the almost AP"
-    figure;
-    imshow(img);
-    hold on;
-    plot(AP(:,2), AP(:,1),'g*');
+%     figure;
+%     imshow(img);
+%     hold on;
+%     plot(AP(:,2), AP(:,1),'g*');
     %plot(nearAP(2), nearAP(1), 'r*');
 
 end
