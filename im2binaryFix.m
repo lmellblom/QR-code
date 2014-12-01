@@ -48,9 +48,9 @@ paddedHeight = height+padHeight
 paddedWidth = width+padWidth
 
 % Create the column to pad with.
-padCol = zeros(height, padWidth);
+padCol = ones(height, padWidth);
 %Create the row to pad with.
-padRow = zeros(padHeight, paddedWidth);
+padRow = ones(padHeight, paddedWidth);
 
 % Add padding
 %Add column padding to the right of the image
