@@ -19,7 +19,7 @@ function bin = im2binary(img, k)
 %Skapa en matris där k*k st tröskelvärden sparas
 thresholds = zeros(k);
 
-[height, width, depth] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
+[height, width, ~] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
 
 BW_img = zeros(height, width);
 

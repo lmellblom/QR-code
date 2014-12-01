@@ -10,7 +10,7 @@ function strout = tnm034(Im)
 % Our program code...
 
 % process the image, maybe check if gray image or something first??
-img = im2binarySimple(Im);
+img = im2binary(Im, 8);
 
 % find FIPs
 FIPCandidates = findFIPCandidates(img);
