@@ -11,6 +11,7 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 function bin = im2binary(img, k)
 
 figure('name', 'incoming fig');
@@ -23,6 +24,8 @@ img = imread('images/img_set4/Hus_3a.png');
 %%
 %Skapa en matris där k*k st tröskelvärden sparas
 thresholds = zeros(k);
+
+[height, width, ~] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
 
 %% add padding to the bottom and to the right
 [height, width, depth] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
