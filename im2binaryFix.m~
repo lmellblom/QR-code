@@ -12,65 +12,72 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-function bin = im2binary(img, k)
-
-%imshow(img);
-%figure;
-
+function thresholds = im2binaryFix(img, k)
 %% Test param. remove when working
-%k=10;
+%k = 3;
 %img = imread('images/img_set2/test.png');
+
+figure(1);
+imshow(img);
 %%
 %Skapa en matris där k*k st tröskelvärden sparas
 thresholds = zeros(k);
 
 %% add padding to the bottom and to the right
-[height, width, ~] = size(img) % height and width (depth is not used but needs to be there so "size" works correctly
+[height, width, depth] = size(img) % height and width (depth is not used but needs to be there so "size" works correctly
 if(depth == 3) 
     img = rgb2gray(img);
 end
 
 %% Calculate padding
+% If the remainder of height / k is 0, k pixels will used for padding!!
 % padHeight: how many rows of padding to add
-padHeight = mod(height,k);
-if(padHeight ~= 0)
+padHeight = k - mod(height,k)
+% padWidth: how many columns of padding to add
+padWidth = k - mod(width,k)
 
-    % padWidth: how many columns of padding to add
-    padWidth = mod(width,k);
+% If no padding is *needed* for even thresholding, add k pixels as padding
+%if(padHeight == 0)
+%    padHeight = k;
+%end
+%if(padWidth == 0)
+%    padWidth = k;
+%end
     
-    %
-    paddedHeight = height+padHeight;
-    paddedWidth = width+padWidth;
-    %Create matrix of ones of the same height as img and the same number of
-    %cols as we want to pad
-    padCol = zeros(height, padWidth);
-    %Create maatrix of ones of the number of rows we want to pad and of the
-    %same width as the new padded img.
-    padRow = zeros(padHeight, paddedWidth);
+paddedHeight = height+padHeight
+paddedWidth = width+padWidth
 
-    % Add padding
-    %Add column padding to the right of the image
-    img = [img, padCol];
-    %Add row padding at the bottom of the image
-    img = [img; padRow]; %REMEMBER TO DELETE THE PADDING AFTER TRESHOLDING
-    %figure();
-    %imshow(img);
-    
-    h_step = floor(paddedHeight/k);
-    w_step = floor(paddedWidth/k);
-    loopHeight = paddedHeight;
-    loopWidth = paddedWidth;
-else
-    h_step = floor(height/k);
-    w_step = floor(width/k);
-    loopHeight = height;
-    loopWidth = width;
-end
+% Create the column to pad with.
+padCol = zeros(height, padWidth);
+%Create the row to pad with.
+padRow = zeros(padHeight, paddedWidth);
+
+% Add padding
+%Add column padding to the right of the image
+img = [img, padCol];
+%Add row padding at the bottom of the image
+img = [img; padRow]; %REMEMBER TO DELETE THE PADDING AFTER TRESHOLDING
+
+figure(2);
+imshow(img);
+
+[h, w, ~] = size(img)
+
+% _step: the step with which to loop to threshold
+h_step = (paddedHeight/k);
+w_step = (paddedWidth/k);
+
+loopHeight = paddedHeight;
+loopWidth = paddedWidth;
     
 %% Create new binary image
 BW_img = zeros(size(img));
-%figure();
-%imshow(BW_img);
+
+[bw_h, bw_w, ~] = size(BW_img)
+
+figure(3);
+imshow(BW_img);
+
 %% uncomment IF running im2bin without padding
 %paddedHeight = height;
 %paddedWidth = width;

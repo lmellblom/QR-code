@@ -24,8 +24,10 @@ function bin = im2binary(img, k)
 %Skapa en matris där k*k st tröskelvärden sparas
 thresholds = zeros(k);
 
+[height, width, ~] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
+
 %% add padding to the bottom and to the right
-[height, width, ~] = size(img) % height and width (depth is not used but needs to be there so "size" works correctly
+[height, width, depth] = size(img); % height and width (depth is not used but needs to be there so "size" works correctly
 if(depth == 3) 
     img = rgb2gray(img);
 end
@@ -37,8 +39,6 @@ if(padHeight ~= 0)
 
     % padWidth: how many columns of padding to add
     padWidth = mod(width,k);
-    
-    %
     paddedHeight = height+padHeight;
     paddedWidth = width+padWidth;
     %Create matrix of ones of the same height as img and the same number of
