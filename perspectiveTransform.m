@@ -18,25 +18,54 @@ no_of_points = 4;
 row_values_dist = [fips(1,1), fips(2,1), fips(3,1), ap(1)];
 col_values_dist = [fips(1,2), fips(2,2), fips(3,2), ap(2)];
 
+figure;
+imshow(Im);
+hold on;
+plot(fips(1,2), fips(1,1),'g*');
+plot(fips(2,2), fips(2,1),'r*');
+plot(fips(3,2), fips(3,1),'b*');
+plot(ap(2), ap(1),'c*');
 
 % Make the new image the same size as the current
-[width,height,color] = size(Im);
-if(color == 3)
-    Im = rgb2gray(Im);
-end
+% [width,height,color] = size(Im);
+% if(color == 3)
+%     Im = rgb2gray(Im);
+% end
+[width,height] = size(Im);
 
+    % A-------C
+    % |    _/
+    % |  _/
+    % |_/
+    % B/
+    
+A = fips(2,:);
+B = fips(1,:);
+C = fips(3,:);
+
+AC = C-A;
+AB = B-A;
+    
 % Calculate true values
 % Find max distance:
-dist_1 = abs((row_values_dist(1) - row_values_dist(2)));
-dist_2 = abs((col_values_dist(3) - col_values_dist(2)));
+dist_1 = sqrt(AC(1)^2 + AC(2)^2);
+dist_2 = sqrt(AB(1)^2 + AB(2)^2); 
 
-dist_max = max(dist_1, dist_2)
-dist_min = dist_max*(4/34);
-side = dist_max + (2*dist_min);
+dist_max = max(dist_1, dist_2);
+cell_width = dist_max/34;
+dist_min = 3.5*cell_width;%dist_max*(3.5/36);%(3.5/34)%
+side = 41*cell_width;%dist_max + (2*dist_min);
+dist_fip = 37.5*cell_width;
+dist_ap = 34.5*cell_width;
+
 
 % True values for the fips
-col_values_true = [dist_min;          dist_min; dist_min+dist_max; dist_max];
-row_values_true = [dist_max+dist_min; dist_min; dist_min         ; dist_max];
+col_values_true = [dist_min;          dist_min; dist_fip;          dist_ap];
+row_values_true = [dist_fip;          dist_min; dist_min         ; dist_ap];
+% plot(row_values_true(1), col_values_true(1),'y*');
+% plot(row_values_true(2), col_values_true(2),'y*');
+% plot(row_values_true(3), col_values_true(3),'y*');
+% plot(row_values_true(4), col_values_true(4),'y*');
 
 
 % Collect coordinates from the image and the reference image
@@ -67,11 +96,19 @@ for k=1:(width*height)
     
 end
 
-newim = im2binarySimple(newim);
+n = floor(cell_width/2);
+if(cell_width > 2)
+    se = strel('square',n); %There is probably a better option, need to decide what square side
+    newim = imclose(newim,se);
+end
 
-n = floor(dist_max/(33*2));
-se = strel('square',n); %There is probably a better option, need to decide what square side
-newim = imclose(newim,se);
+% figure;
+% imshow(newim);
+% hold on;
+% plot(row_values_true(1), col_values_true(1),'y*');
+% plot(row_values_true(2), col_values_true(2),'y*');
+% plot(row_values_true(3), col_values_true(3),'y*');
+% plot(row_values_true(4), col_values_true(4),'y*');
 
 transformed = newim;
 
