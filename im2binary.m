@@ -54,9 +54,13 @@ if(padHeight ~= 0)
     
     h_step = floor(paddedHeight/k);
     w_step = floor(paddedWidth/k);
+    loopHeight = paddedHeight;
+    loopWidth = paddedWidth;
 else
     h_step = floor(height/k);
     w_step = floor(width/k);
+    loopHeight = height;
+    loopWidth = width;
 end
     
 %% Create new binary image
@@ -70,8 +74,8 @@ BW_img = zeros(size(img));
 %%
 
 place = 1;
-for i=1:h_step:(paddedHeight-h_step-1)
-    for j=1:w_step:(paddedWidth-w_step-1)
+for i=1:h_step:(loopHeight-h_step-1)
+    for j=1:w_step:(loopWidth-w_step-1)
         if(place <= k*k)
             thresholds(place) = graythresh( img((i:i+(h_step-1)), (j:j+(w_step-1))) );
             BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = im2bw( (img( (i:i+(h_step-1)), (j:j+(w_step-1)) )), thresholds(place) );
