@@ -87,8 +87,7 @@ end
 %imshow(BW_img);
 
 %% Remove padding
-BW_img=BW_img(:,1:height);
-BW_img=BW_img(1:width,:);
+BW_img=BW_img(1:height,1:width);
 
 %figure(5);
 %imshow(BW_img);
