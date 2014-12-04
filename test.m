@@ -40,7 +40,7 @@ correct = 'Typ: Fastigheten Älmhult Jämnhult 1:28. Friliggande villa. Byggår 198
 disp('Test 2 startades');
 disp('...');
 tic
-for i = length(srcFiles) : length(srcFiles)
+for i = 1 : length(srcFiles)
     filename = strcat('images/img_set2/',srcFiles(i).name);
     I = imread(filename);
     message = tnm034(I);
@@ -127,7 +127,7 @@ correct = 'Typ: Fastigheten Älmhult Jämnhult 1:28. Friliggande villa. Byggår 198
 disp('Test 5 startades');
 disp('...');
 tic
-for i = 1 : 1%length(srcFiles)
+for i = 1 : length(srcFiles)
     filename = strcat('images/img_set5/',srcFiles(i).name);
     I = imread(filename);
     message = tnm034(I);
@@ -156,7 +156,7 @@ srcFiles = dir('images/img_newSet/*.png');  % the folder in which ur images exis
 disp('Test 6 startades');
 disp('...');
 tic
-for i = 2 : 2%length(srcFiles)
+for i = 1 : length(srcFiles)
     filename = strcat('images/img_newSet/',srcFiles(i).name);
     I = imread(filename);
     message = tnm034(I);

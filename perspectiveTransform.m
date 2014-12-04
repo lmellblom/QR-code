@@ -18,13 +18,13 @@ no_of_points = 4;
 row_values_dist = [fips(1,1), fips(2,1), fips(3,1), ap(1)];
 col_values_dist = [fips(1,2), fips(2,2), fips(3,2), ap(2)];
 
-figure;
-imshow(Im);
-hold on;
-plot(fips(1,2), fips(1,1),'g*');
-plot(fips(2,2), fips(2,1),'r*');
-plot(fips(3,2), fips(3,1),'b*');
-plot(ap(2), ap(1),'c*');
+%figure;
+%imshow(Im);
+%hold on;
+%plot(fips(1,2), fips(1,1),'g*');
+%plot(fips(2,2), fips(2,1),'r*');
+%plot(fips(3,2), fips(3,1),'b*');
+%plot(ap(2), ap(1),'c*');
 
 % Make the new image the same size as the current
 % [width,height,color] = size(Im);
