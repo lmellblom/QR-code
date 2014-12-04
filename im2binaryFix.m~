@@ -15,8 +15,7 @@
 function thresholds = im2binaryFix(img, k)
 %% Test param. remove when working
 k = 8;
-%img = imread('images/img_set2/test.png');
-img = imread('images/img_set1/Bygg_1.png');
+img = imread('images/img_set2/test.png');
 %img = imread('images/img_newSet/Husannons_full_Illum.png');
 
 uniqLevels = unique(img(:));
@@ -92,15 +91,16 @@ for i=1:h_step:(loopHeight-h_step+1)
         temp_max = max(max(temp_img))
         delta = temp_max - temp_min
         
-        if( place <= k*k && delta > 40 )
+        if( place <= k*k && delta > 10 )
             [level, EM] = graythresh( temp_img );
             thresholds(place) = level;
+            %EM;
             BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = im2bw( (img( (i:i+(h_step-1)), (j:j+(w_step-1)) )), thresholds(place) );
             place = place+1;
-        elseif(entire_thresh > level)
-            BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = 1;
         else
-            BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = 0;
+            
+            BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = im2bw( (img( (i:i+(h_step-1)), (j:j+(w_step-1)) )), thresholds(place) );
+            delta;
         end
     end
 end
