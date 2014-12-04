@@ -70,8 +70,8 @@ BW_img = zeros(size(img));
 %% det blir olika bokstäver när man decodar beroende på om man tex trösklar med k=8 eller k=9, skulle man kunde ta det som blev rätt från båda så skulle det bli perfa. 
 
 place = 1;
-entire_thresh = graythresh(img);
 img = im2double(img);
+entire_thresh = graythresh(img);
 
 for i=1:h_step:(loopHeight-h_step+1)
     for j=1:w_step:(loopWidth-w_step+1)
@@ -84,8 +84,7 @@ for i=1:h_step:(loopHeight-h_step+1)
         delta = temp_max - temp_min;
         
         if( place <= k*k && delta > 0.946 )%0.7 för nästan alla är bra (nästan skjuter ingen hare)
-            %[level, EM] = graythresh( temp_img );
-            thresholds(place) = small_thresh;%level;
+            thresholds(place) = small_thresh;
             BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = im2bw( (img( (i:i+(h_step-1)), (j:j+(w_step-1)) )), thresholds(place) );
             place = place+1;
         elseif(entire_thresh > small_thresh)
