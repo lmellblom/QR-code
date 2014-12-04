@@ -4,7 +4,7 @@ close all;
 %img = imread('images/img_set1/Bygg_1.png');
 img = imread('images/img_set3/Hus_2.png');
 
-figure(1); label('orginal'); imshow(img);
+figure(1); imshow(img);
 
 %convert to grayscale
 img = rgb2gray(img);
