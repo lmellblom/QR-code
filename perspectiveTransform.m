@@ -13,24 +13,22 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function transformed = perspectiveTransform(Im, fips, ap)
 
+% Points that are used to make transformation matrix
 no_of_points = 4;
+
 % Set the fips
 row_values_dist = [fips(1,1), fips(2,1), fips(3,1), ap(1)];
 col_values_dist = [fips(1,2), fips(2,2), fips(3,2), ap(2)];
 
-figure;
-imshow(Im);
-hold on;
-plot(fips(1,2), fips(1,1),'g*');
-plot(fips(2,2), fips(2,1),'r*');
-plot(fips(3,2), fips(3,1),'b*');
-plot(ap(2), ap(1),'c*');
+% figure;
+% imshow(Im);
+% hold on;
+% plot(fips(1,2), fips(1,1),'g*');
+% plot(fips(2,2), fips(2,1),'r*');
+% plot(fips(3,2), fips(3,1),'b*');
+% plot(ap(2), ap(1),'c*');
 
 % Make the new image the same size as the current
-% [width,height,color] = size(Im);
-% if(color == 3)
-%     Im = rgb2gray(Im);
-% end
 [width,height] = size(Im);
 
     % A-------C
@@ -53,8 +51,8 @@ dist_2 = sqrt(AB(1)^2 + AB(2)^2);
 
 dist_max = max(dist_1, dist_2);
 cell_width = dist_max/34;
-dist_min = 3.5*cell_width;%dist_max*(3.5/36);%(3.5/34)%
-side = 41*cell_width;%dist_max + (2*dist_min);
+dist_min = 3.5*cell_width;
+side = 41*cell_width;
 dist_fip = 37.5*cell_width;
 dist_ap = 34.5*cell_width;
 
