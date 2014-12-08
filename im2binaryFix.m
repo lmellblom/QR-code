@@ -7,24 +7,26 @@
 %Part of a pattern recognition project TNM034 - Advanced Image Processing, Linköping
 %University HT2014.
 %
-%Copyright (c) <2014> Karolin Jonsson, Louise Carlström, Linnea Nåbo, Linnea Mellblom
+%Copyright (c) <2014> Louise Carlström, Karolin Jonsson, Linnea Mellblom, Linnea Nåbo
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 function thresholds = im2binaryFix(img, k)
 %% Test param. remove when working
-k = 8;
-%img = imread('images/img_set2/test.png');
-img = imread('images/img_set1/Bygg_1.png');
+k = 1;
+img = imread('images/img_set2/test.png');
+%img = imread('images/img_set1/Bygg_1.png');
 %img = imread('images/img_newSet/Husannons_full_Illum.png');
+%img = imread('images/img_newSet/Hus_1_illum.png');
+%img = imread('images/img_set5/Husannons_full.png');
 
 uniqLevels = unique(img(:));
 disp(['Number of unique levels = ' int2str( length(uniqLevels) )]);
 
 figure(1);
 imshow(img);
-%%
+
 %Skapa en matris där k*k st tröskelvärden sparas
 thresholds = zeros(k);
 
@@ -34,7 +36,7 @@ if(depth == 3)
     img = rgb2gray(img);
 end
 
-img = imadjust(img);
+%img = imadjust(img);
 figure(7);imshow(img);
 
 uniqLevels = unique(img(:));
@@ -59,7 +61,7 @@ padRow = ones(padHeight, paddedWidth);
 %Add column padding to the right of the image
 img = [img, padCol];
 %Add row padding at the bottom of the image
-img = [img; padRow]; %REMEMBER TO DELETE THE PADDING AFTER TRESHOLDING
+img = [img; padRow];
 
 figure(2);
 imshow(img);
@@ -77,8 +79,8 @@ BW_img = zeros(size(img));
 figure(3);
 imshow(BW_img);
 
-%% det blir olika bokstäver när man decodar beroende på om man tex trösklar med k=8 eller k=9, skulle man kunde ta det som blev rätt från båda så skulle det bli perfa. 
-
+%% Adaptive thresholding
+% 
 place = 1;
 entire_thresh = graythresh(img);
 
@@ -88,11 +90,11 @@ for i=1:h_step:(loopHeight-h_step+1)
         
         temp_mean = mean(temp_img);
         
-        temp_min = min(min(temp_img))
-        temp_max = max(max(temp_img))
-        delta = temp_max - temp_min
+        temp_min = min(min(temp_img));
+        temp_max = max(max(temp_img));
+        delta = temp_max - temp_min;
         
-        if( place <= k*k && delta > 40 )
+        if( place <= k*k && delta > 30 )
             [level, EM] = graythresh( temp_img );
             thresholds(place) = level;
             BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = im2bw( (img( (i:i+(h_step-1)), (j:j+(w_step-1)) )), thresholds(place) );
