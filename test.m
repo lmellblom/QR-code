@@ -132,8 +132,6 @@ for i = 1 : length(srcFiles)
     I = imread(filename);
     message = tnm034(I);
     
-    % =0% Lyckades, kanske ljuset?
-    
     % test if right message
     m = cellstr(message);
     if strcmp(m{1},correct)
