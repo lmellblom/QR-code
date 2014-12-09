@@ -8,7 +8,7 @@
 %Part of a pattern recognition project TNM034 - Advanced Image Processing, Linköping
 %University HT2014.
 %
-%Copyright (c) <2014> Karolin Jonsson, Louise Carlström, Linnea Nåbo, Linnea Mellblom
+%Copyright (c) <2014> Louise Carlström, Karolin Jonsson, Linnea Mellblom, Linnea Nåbo
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function rotated = rotationTransform(I, fips)

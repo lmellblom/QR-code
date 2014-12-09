@@ -7,7 +7,7 @@
 %Part of a pattern recognition project TNM034 - Advanced Image Processing, Linköping
 %University HT2014.
 %
-%Copyright (c) <2014> Karolin Jonsson, Louise Carlström, Linnea Nåbo, Linnea Mellblom
+%Copyright (c) <2014>  Louise Carlström, Karolin Jonsson, Linnea Mellblom, Linnea Nåbo
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -73,10 +73,13 @@ BW_img = zeros(size(img));
 %%
 
 place = 1;
+%Loop through sections in the image
 for i=1:h_step:(loopHeight-h_step+1)
     for j=1:w_step:(loopWidth-w_step+1)
         if(place <= k*k)
+            % Global threshold Graythresh, within this section.
             thresholds(place) = graythresh( img((i:i+(h_step-1)), (j:j+(w_step-1))) );
+            %Convert into binary image.
             BW_img( (i:(i+(h_step-1))), (j:(j+(w_step-1))) ) = im2bw( (img( (i:i+(h_step-1)), (j:j+(w_step-1)) )), thresholds(place) );
             place = place+1;
         end
