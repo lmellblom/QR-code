@@ -22,7 +22,18 @@ function AP = findAP(FIPs, img)
     AC = C-A;
     AB = B-A;
     
-    nearAP = AC + AB + A; % kommer dock för långt ner och till höger.. ej konstigt dock
+    % calculate one cell / module size, to move the AP closer to the right
+    % position
+    dist_1 = sqrt(AC(1)^2 + AC(2)^2);
+    dist_2 = sqrt(AB(1)^2 + AB(2)^2); 
+    cell_width1 = dist_1/34;
+    cell_width2 = dist_2/34;
+    
+    normAC = AC/norm(AC);
+    normAB = AB/norm(AB);
+    
+    %nearAP = (AC-normAC*3*cell_width1) + (AB-normAB*3*cell_width2) + A % kommer dock för långt ner och till höger.. ej konstigt dock
+    nearAP = normAC*31.5*cell_width1 + normAB*31.5*cell_width2 + A;  % 31.5 since it is the distance between the middle of the FIP and the first distance of the second
     % tollerance upp och ned typ
     
     startRow = nearAP(1);
@@ -80,10 +91,10 @@ function AP = findAP(FIPs, img)
     AP = locationAP(index,:);
     
     % plot cancidates and "the almost AP"
-%     figure;
-%     imshow(img);
-%     hold on;
-%     plot(AP(:,2), AP(:,1),'g*');
-    %plot(nearAP(2), nearAP(1), 'r*');
+     figure;
+     imshow(img);
+     hold on;
+     plot(AP(:,2), AP(:,1),'r*');
+     plot(nearAP(2), nearAP(1), 'b*');
 
 end
