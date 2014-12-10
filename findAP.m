@@ -103,24 +103,7 @@ function AP = findAP(FIPs, img)
     
     % choose the point that had the smallest distane to the nearAP
     AP = locationAP(index,:);
-    
-    %% Trying to make the AP finder better precision,  will not just pick the smallest distance. 
-    % does not work properly
-%     if(length(locationAP)>1)
-%         dNorm = d/norm(d,Inf); % normalize the vector
-%         dTrue = dNorm<0.2; % find a specific range of APs, more likely to be
-%         ap = locationAP(dTrue,:);
-% 
-%         % use k-means to find the centerpoint of this cluster
-%         [~, centerPoints] = kmeans(ap,1,'Distance','cityblock',...
-%                                'Replicates',5);
-% 
-%         % choose the centerpoint as the AP
-%         AP = centerPoints;
-%     else
-%         AP = locationAP(index,:);
-%     end
-    
+      
     %% Uncomment if want to se the found AP point and the calculated nearAP in the beginning.  
 %     figure;
 %     imshow(img);
