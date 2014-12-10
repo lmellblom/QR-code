@@ -1,0 +1,44 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+function strout = tnm034(Im)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%function Im = tnm034()
+%
+%Receives an original image and uses perpective transformation to transform it to
+%a straight, readable image.
+%Returns straight, grayscale image.
+%Part of a pattern recognition project TNM034 - Advanced Image Processing, Linköping
+%University HT2014.
+%
+%Copyright (c) <2014> Karolin Jonsson, Louise Carlström, Linnea Nåbo, Linnea Mellblom
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%
+% Im: Input image of the captured QR-code. Im should be in 
+% double format, normalized to the interval [0,1]
+%
+% strout: The resulting character string of the coded message. 
+% The string must follow the pre-defined format, explained below.
+
+% Make image binary
+img = im2binarySimple(img);
+
+% find FIP points in the image
+FIPCandidates = findFIPCandidates(img);
+FIPLocations = findFIPs(FIPCandidates);
+
+% find AP point in the image
+APLocation = findAP(FIPLocations,img); 
+
+% Transform the image
+img = perspectiveTransform(Im, FIPLocations, APLocation);
+
+% Resize image
+small_im = imresize(img, [41 41], 'nearest');
+
+% Read the QR-code
+message = decodeQR(double(small_im));
+    
+strout=message;
