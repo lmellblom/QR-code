@@ -14,7 +14,7 @@
 function strout = tnm034(Im)
 
 % Make image binary
-img = im2binarySimple(img);
+img = im2binarySimple(Im);
 
 % find FIP points in the image
 FIPCandidates = findFIPCandidates(img);
