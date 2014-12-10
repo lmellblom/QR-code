@@ -25,7 +25,7 @@ function [out, moduleSize] = checkRatio(vector, pattern)
     end
 
     % Calculate the size of one module
-    TOLERANCE = 0.4;
+    TOLERANCE = 0.3;
     moduleSize = (totalFinderSize / patternSize);
     
     % how much the pattern can vary and still be acceptable. 

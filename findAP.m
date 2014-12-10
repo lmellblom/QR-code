@@ -49,12 +49,13 @@ function AP = findAP(FIPs, img)
     nearAP = normAC*31.5*cell_width1 + normAB*31.5*cell_width2 + A;  
     
     % to not search in the entire image for AP, know where it "should" be
-    startRow = nearAP(1)*0.5;
-    startCol = nearAP(2)*0.5;
+    % does not work properly
+    %startRow = floor(nearAP(1)*0.5);
+    %startCol = floor(nearAP(2)*0.5);
     
     %% Find all the possible candidates for the AP
     % start by searching the row
-    for row = startRow : height
+    for row = 1 : height
         scanline = img(row,:);
         
         % calculate the appearence of the modules in row.
@@ -63,7 +64,7 @@ function AP = findAP(FIPs, img)
         pixelPosCol = 1; % to know which pixel position in column we are at
         % check the sequence if there is a possible AP, taking out every 3
         % element
-        for i = startCol:length(length_modules)-2 
+        for i = 1:length(length_modules)-2 
             vectorAP = length_modules(i:i+2);
             [isAP, ~] = checkRatio(vectorAP, [1 1 1]);
             
@@ -75,7 +76,7 @@ function AP = findAP(FIPs, img)
                 length_module_col = lengthModule(img(:,col));
                 % search the column for ratio of AP, if almost same row as
                 % above, store as AP candidate
-                for j = startRow:length(length_module_col)-2
+                for j = 1:length(length_module_col)-2
                     vector_row_AP = length_module_col(j:j+2);
                     [rowAP, ~] =  checkRatio(vector_row_AP, [1 1 1]);
                     if(rowAP && img(pixelPosRow,col)==0)
@@ -101,20 +102,24 @@ function AP = findAP(FIPs, img)
     [~, index] = min(d); % found the one with smallest distance
     
     % choose the point that had the smallest distane to the nearAP
-    %AP = locationAP(index,:);
+    AP = locationAP(index,:);
     
     %% Trying to make the AP finder better precision,  will not just pick the smallest distance. 
-    
-    dNorm = d/norm(d,Inf); % normalize the vector
-    dTrue = dNorm<0.2; % find a specific range of APs, more likely to be
-    ap = locationAP(dTrue,:);
-    
-    % use k-means to find the centerpoint of this cluster
-    [~, centerPoints] = kmeans(ap,1,'Distance','cityblock',...
-                           'Replicates',5);
-    
-    % choose the centerpoint as the AP
-    AP = centerPoints;
+    % does not work properly
+%     if(length(locationAP)>1)
+%         dNorm = d/norm(d,Inf); % normalize the vector
+%         dTrue = dNorm<0.2; % find a specific range of APs, more likely to be
+%         ap = locationAP(dTrue,:);
+% 
+%         % use k-means to find the centerpoint of this cluster
+%         [~, centerPoints] = kmeans(ap,1,'Distance','cityblock',...
+%                                'Replicates',5);
+% 
+%         % choose the centerpoint as the AP
+%         AP = centerPoints;
+%     else
+%         AP = locationAP(index,:);
+%     end
     
     %% Uncomment if want to se the found AP point and the calculated nearAP in the beginning.  
 %     figure;
