@@ -8,7 +8,7 @@ correct = 'Byggbutiken online! URL: http://www.byggstommar.se';
 disp('Test 1 startades');
 disp('...');
 tic
-for i = 1 : 1%length(srcFiles)
+for i = 1 : length(srcFiles)
     filename = strcat('images/img_set1/',srcFiles(i).name);
     I = imread(filename);
     message = tnm034(I);
