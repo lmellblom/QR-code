@@ -1,6 +1,6 @@
 %% Test 1
 % "Byggbutiken online! URL: http://www.byggstommar.se"
-srcFiles = dir('images/img_set1/*.png');  % the folder in which ur images exists
+srcFiles = dir('images/img_set1/*.png');  % the folder in which our images exists
 
 numbersCorrect = 0;
 correct = 'Byggbutiken online! URL: http://www.byggstommar.se';
@@ -11,6 +11,12 @@ tic
 for i = 1 : length(srcFiles)
     filename = strcat('images/img_set1/',srcFiles(i).name);
     I = imread(filename);
+    
+    uniqueLevels = unique(I(:));
+    nrOfLevels = length(uniqueLevels);
+    %disp(['Number of unique levels = ' int2str( nrOfLevels )]);
+    i;
+    
     message = tnm034(I);
     
     %srcFiles(i).name
@@ -40,7 +46,7 @@ correct = 'Typ: Fastigheten Älmhult Jämnhult 1:28. Friliggande villa. Byggår 198
 disp('Test 2 startades');
 disp('...');
 tic
-for i = length(srcFiles) : length(srcFiles)
+for i = 4 : 4
     filename = strcat('images/img_set2/',srcFiles(i).name);
     I = imread(filename);
     message = tnm034(I);

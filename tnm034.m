@@ -11,8 +11,10 @@ function strout = tnm034(Im)
 
 % process the image, maybe check if gray image or something first??
 %img = im2binary(Im, 8);
-img = im2binaryFix(Im, 8);
+img = im2binaryFix(Im, 1);
 %img = im2binarySimple(Im);
+
+figure('name', 'after thresholding and binarisation'); imshow(img);
 
 % find FIPs
 FIPCandidates = findFIPCandidates(img);
